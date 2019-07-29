@@ -26,5 +26,8 @@ module.exports = {
             email: joi.string().email().required(),
             phone: joi.string().required()
         }),
+        delete: joi.object().keys({
+            _id: joi.string().required(),
+        }),
     }
 }

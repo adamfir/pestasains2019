@@ -51,6 +51,23 @@ class SchoolController{
             return res.status(400).json({message:e.message,success:false});
         }
     }
+    static async delete(req,res){
+        let {privilege,sub} = req.decoded;
+        if(privilege != 'school')
+            return res.status(401).json({message: "Not allowed.", student:null});
+        try{
+            let {_id} = req.value.body,
+                student = await StudentModel.findById({_id});
+            if(sub == student.school){
+                await student.remove();
+                return res.status(200).json({message:"Success",student});
+            }else{
+                return res.status(401).json({message:"Not allowed",student:null});
+            }
+        }catch(e){
+            return res.status(500).json({message:"Failed",student:null});
+        }
+    }
 }
 
 module.exports = SchoolController;
