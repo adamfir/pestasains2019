@@ -3,13 +3,22 @@ let JWT_SECRET = "#$3cr3tF0r1Ev3ry0n3$*"
 class JWtController {
     static signTokenToSchool(user) {
         if (user == null) return null;
-        console.log(user._id);
         return JWT.sign({
             iss: 'Pesta Sains Nasional',
             sub: user._id,
             iat: new Date().getTime(),
             exp: new Date().setDate(new Date().getDate() + 5),
             privilege: "school"
+        }, JWT_SECRET);
+    }
+    static signTokenToAdmin(user) {
+        if (user == null) return null;
+        return JWT.sign({
+            iss: 'Pesta Sains Nasional',
+            sub: user._id,
+            iat: new Date().getTime(),
+            exp: new Date().setDate(new Date().getDate() + 5),
+            privilege: "admin"
         }, JWT_SECRET);
     }
     static checkToken(req, res, next) {

@@ -2,36 +2,28 @@ let mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     bcrypt = require('bcryptjs');
 
-let schoolSchema = new Schema({
+let adminSchema = new Schema({
     name: {
         type: String,
         required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true
     },
     username: {
         type: String,
         required: true,
         unique: true
     },
-    address: {
+    email:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
-    phone: {
-        type: String,
-        required: true
-    },
-    password: {
+    password:{
         type: String,
         required: true
     }
 });
 
-schoolSchema.pre('save', async function (next) {
+adminSchema.pre('save', async function (next) {
     if (this.password) {
         try {
             // Generate a salt
@@ -48,7 +40,7 @@ schoolSchema.pre('save', async function (next) {
     next();
 });
 
-schoolSchema.methods.isValidPassword = async function (newPassword) {
+adminSchema.methods.isValidPassword = async function (newPassword) {
     try {
         console.log(newPassword,this.password);
         return await bcrypt.compare(newPassword, this.password);
@@ -58,7 +50,7 @@ schoolSchema.methods.isValidPassword = async function (newPassword) {
 }
 
 // create a model
-let School = mongoose.model('School', schoolSchema);
+let Admin = mongoose.model('Admin', adminSchema);
 
 // export the model
-module.exports = School;
+module.exports = Admin;

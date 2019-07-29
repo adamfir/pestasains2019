@@ -26,6 +26,16 @@ module.exports = {
         schoolLogin: joi.object().keys({
             username: joi.string().required(),
             password: joi.string().required()
-        })
+        }),
+        adminRegistration: joi.object().keys({
+            name: joi.string().required(),
+            username: joi.string().required(),
+            email: joi.string().email().required(),
+            password: joi.string().required(),
+        }),
+        adminLogin: joi.object().keys({
+            username: joi.string().required(),
+            password: joi.string().required()
+        }),
     }
 }
