@@ -9,6 +9,9 @@ let app = express();
 let mongoose = require('mongoose');
 let mongoServer = "mongodb://localhost:27017/psn"
 mongoose.connect(mongoServer, {useNewUrlParser: true});
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

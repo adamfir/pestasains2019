@@ -1,0 +1,56 @@
+let StudentModel = require('./Model');
+class SchoolController{
+    constructor(params) {
+        
+    }
+    static async create(req,res){
+        try{
+            let {name, email, phone} = req.value.body,
+                {sub, privilege} = req.decoded;
+            if(privilege != "school"){
+                return res.status(401).json({message:"Not allowed.", student:null});
+            }
+            let student = await StudentModel.create({name, email, phone, school:sub});
+            return res.status(201).json({message:"Student created.", student});
+        }catch(e){
+            return res.status(400).json({message:e.message, student:null});
+        }
+    }
+    static async listBySchool(req,res){
+        try{
+            let {sub, privilege} = req.decoded;
+            if(privilege == "school"){
+                let students = await StudentModel.find({school:sub});
+                return res.status(200).json({message:"Success.", students});
+            }
+            else{
+                // someday will be securing this API
+                // return res.status(401).json({message:"Not allowed.", students:null});
+                let students = await StudentModel.find();
+                return res.status(200).json({message:"Success.", students});
+            }
+        }catch(e){
+            return res.status(400).json({message:e.message, students:null});
+        }
+    }
+    static async edit(req,res){
+        try{
+            let {_id, name, email, phone} = req.value.body,
+                {sub, privilege} = req.decoded;
+            if(privilege != "school"){
+                return res.status(401).json({message:"Not allowed.",success:false});
+            }
+            StudentModel.findOneAndUpdate({_id},{name,email,phone},(err)=>{
+                if(err)
+                    return res.status(400).json({message:err.message,success:false});
+            }).then(async(student)=>{
+                return res.status(200).json({message:"success",success:true});
+            });
+        }
+        catch(e){
+            return res.status(400).json({message:e.message,success:false});
+        }
+    }
+}
+
+module.exports = SchoolController;

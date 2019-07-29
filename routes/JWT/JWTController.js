@@ -3,6 +3,7 @@ let JWT_SECRET = "#$3cr3tF0r1Ev3ry0n3$*"
 class JWtController {
     static signTokenToSchool(user) {
         if (user == null) return null;
+        console.log(user._id);
         return JWT.sign({
             iss: 'Pesta Sains Nasional',
             sub: user._id,
@@ -25,6 +26,7 @@ class JWtController {
                     });
                 } else {
                     req.decoded = decoded;
+                    // console.log(decoded);
                     next();
                 }
             });
