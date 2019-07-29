@@ -38,7 +38,7 @@ class AuthController {
         try{
             let {username, password} = req.value.body,
                 data = await AdminController.login(username,password),
-                token = JWTController.signTokenToSchool(data.admin);
+                token = JWTController.signTokenToAdmin(data.admin);
             return res.status(data.status).json({message:data.message, admin: data.admin,token});
         }
         catch(e){
