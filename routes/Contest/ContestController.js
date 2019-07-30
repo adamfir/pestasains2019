@@ -1,4 +1,4 @@
-let ContestModel = require('./Model');
+let ContestModel = require('./model');
 
 class ContestController {
     constructor(params) {
