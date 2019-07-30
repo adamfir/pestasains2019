@@ -1,4 +1,4 @@
-let TeamModel = require('./model');
+let TeamModel = require('./TeamModel');
 
 class TeamController {
     constructor(params) {

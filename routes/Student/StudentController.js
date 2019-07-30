@@ -1,4 +1,4 @@
-let StudentModel = require('./model');
+let StudentModel = require('./StudentModel');
 class SchoolController{
     constructor(params) {
         

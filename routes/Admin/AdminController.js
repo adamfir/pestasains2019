@@ -1,4 +1,4 @@
-let AdminModel = require('./model');
+let AdminModel = require('./AdminModel');
 
 class AdminController {
     constructor(params) {

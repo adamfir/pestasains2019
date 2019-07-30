@@ -1,6 +1,6 @@
 let SchoolController  = require('../School/SchoolController'),
     JWTController = require('../JWT/JWTController'),
-    AdminController = require('../Admin/AdminController.js');
+    AdminController = require('../Admin/AdminController');
 class AuthController {
     static async schoolRegistration(req,res){
         try{
