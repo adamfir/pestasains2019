@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var userRouter = require('./users');
-var AuthRouter = require('./Auth/AuthRouter.js');
-var StudentRouter = require('./Student/StudentRouter');
-var ContestRouter = require('./Contest/ContestRouter');
-var TeamRouter = require('./Team/TeamRouter');
+var AuthRouter = require('./Auth/authRouter.js');
+var StudentRouter = require('./Student/studentRouter');
+var ContestRouter = require('./Contest/contestRouter');
+var TeamRouter = require('./Team/teamRouter');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
