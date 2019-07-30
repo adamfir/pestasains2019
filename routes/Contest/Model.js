@@ -2,7 +2,7 @@ let mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     bcrypt = require('bcryptjs');
 
-let teamSchema = new Schema({
+let contestSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -18,7 +18,7 @@ let teamSchema = new Schema({
 });
 
 // create a model
-let Team = mongoose.model('Team', teamSchema);
+let Contest = mongoose.model('Contest', contestSchema);
 
 // export the model
-module.exports = Team;
+module.exports = Contest;
