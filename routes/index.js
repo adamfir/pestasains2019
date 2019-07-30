@@ -8,7 +8,7 @@ var TeamRouter = require('./Team/teamRouter');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  return res.json({message:"Hello friend!"});
 });
 router.use('/users',userRouter);
 router.use('/auth',AuthRouter);
