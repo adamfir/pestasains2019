@@ -1,7 +1,7 @@
 let express = require('express'),
     router = express.Router(),
     AuthController = require('./AuthController'),
-    {validateBody, schemas} = require('./Validation');
+    {validateBody, schemas} = require('./Validation.js');
 
 router.post('/registration', validateBody(schemas.schoolRegistration), AuthController.schoolRegistration);
 router.post('/login', validateBody(schemas.schoolLogin), AuthController.schoolLogin);
