@@ -13,6 +13,28 @@ class TeacherController {
             return res.status(400).json({message:e.message,teacher:null});
         }
     }
+    static async listBySchool(req,res){
+        try{
+            let {school} = req.params,
+                teachers = await TeacherModel.find({school});    
+            return res.status(200).json({message:"Success", teachers});
+        }
+        catch(e){
+            return res.status(400).json({message:e.message, teachers:null});
+        }
+    }
+    
+    //Admin Only
+    static async list(req,res){ 
+        try{
+            let teachers = await TeacherModel.find({});    
+            return res.status(200).json({message:"Success", teachers});
+        }
+        catch(e){
+            return res.status(400).json({message:e.message, teachers:null});
+        }
+    }
+
     static async edit(req,res){
         try{
             let {_id, name, email, phone, NIP, school} = req.value.body,
@@ -29,6 +51,15 @@ class TeacherController {
             return res.status(201).json({message:"Success"});
         }catch(e){
             return res.status(400).json({message:e.message});
+        }
+    }
+    static async get(req,res){
+        try{
+            let {_id} = req.params,
+            teacher = await TeacherModel.findById({_id});
+            return res.status(200).json({message:"Success", teacher});
+        }catch(e){
+            return res.status(400).json({message:e.message, teacher:null});
         }
     }
 }
