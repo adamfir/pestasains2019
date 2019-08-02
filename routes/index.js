@@ -5,6 +5,8 @@ var AuthRouter = require('./Auth/authRouter');
 var StudentRouter = require('./Student/studentRouter');
 var ContestRouter = require('./Contest/contestRouter');
 var TeamRouter = require('./Team/teamRouter');
+var SchoolRouter = require('./School/schoolRouter');
+var ParamRouter = require('./Params/ParamRouter');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,5 +17,7 @@ router.use('/auth',AuthRouter);
 router.use('/students',StudentRouter);
 router.use('/contests',ContestRouter);
 router.use('/teams',TeamRouter);
+router.use('/schools',SchoolRouter);
+router.use('/params',ParamRouter);
 
 module.exports = router;

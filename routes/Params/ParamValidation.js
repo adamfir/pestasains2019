@@ -16,20 +16,17 @@ module.exports = {
     },
     schemas:{
         create: joi.object().keys({
+            code: joi.string().required(),
             name: joi.string().required(),
-            img: joi.string().required(),
-            memberPerTeam: joi.number().required(),
-            maxTeam: joi.number().required(),
+            value: joi.string().required(),
         }),
         edit: joi.object().keys({
-            _id: joi.string().required(),
-            img: joi.string().required(),
+            code: joi.string().required(),
             name: joi.string().required(),
-            memberPerTeam: joi.number().required(),
-            maxTeam: joi.number().required(),
+            value: joi.string().required(),
         }),
         delete: joi.object().keys({
-            _id: joi.string().required(),
+            code: joi.string().required(),
         }),
     }
 }

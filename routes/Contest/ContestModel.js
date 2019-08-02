@@ -14,7 +14,12 @@ let contestSchema = new Schema({
     maxTeam:{
         type: Number,
         required: true
-    }
+    },
+    img:{
+        type: String,
+        required: true
+    },
+    
 });
 
 // create a model

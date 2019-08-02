@@ -1,8 +1,5 @@
 let SchoolModel = require('./SchoolModel');
 class SchoolController{
-    constructor(params) {
-        
-    }
     static async create(name,address,email,phone,username,password){
         try{
             return await SchoolModel.create({name,address,email,phone,username,password});
@@ -20,6 +17,15 @@ class SchoolController{
         }
         else{
             return {status: 400, school:null, message:"Wrong password."}
+        }
+    }
+    static async list(req,res,next){
+        try{
+            let schools = await SchoolModel.find({});
+            return res.status(200).json({message:"success",schools});
+        }
+        catch(e){
+            return res.status(500).json({message:e.message,schools:null});
         }
     }
 }
