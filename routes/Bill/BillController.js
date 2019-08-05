@@ -58,6 +58,11 @@ class BillController {
             res.status(400).json({message: e.message});
         }
     }
+    static async callback(req,res,next){
+        let {client_id, data} = req.body;
+        console.log(client_id,data);
+        return res.json({client_id,data});
+    }
 }
 
 module.exports = BillController;

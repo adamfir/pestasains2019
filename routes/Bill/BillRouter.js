@@ -5,5 +5,6 @@ let express = require('express'),
     JWtController = require('../JWT/JWTController');
 
 router.post('/', JWtController.checkToken, JWtController.isSchool, validateBody(schemas.create), BillController.create);
+router.post('/callback', BillController.callback);
 
 module.exports = router;
