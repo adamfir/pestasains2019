@@ -10,6 +10,7 @@ var ParamRouter = require('./Params/ParamRouter');
 var TeacherRouter = require('./Teacher/TeacherRouter');
 var BillRouter = require('./Bill/BillRouter');
 var AccommodationRouter = require('./Accommodation/AccommodationRouter');
+var BookingRouter = require('./Booking/BookingRouter');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -25,5 +26,6 @@ router.use('/params',ParamRouter);
 router.use('/teachers',TeacherRouter);
 router.use('/bills',BillRouter);
 router.use('/accommodation',AccommodationRouter);
+router.use('/booking',BookingRouter);
 
 module.exports = router;
