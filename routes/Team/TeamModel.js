@@ -20,7 +20,11 @@ let teamSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'Student'
-    }]
+    }],
+    isFinal:{
+        type: Boolean,
+        default: false,
+    }
 });
 
 // create a model

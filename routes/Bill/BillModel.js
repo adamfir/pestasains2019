@@ -1,0 +1,67 @@
+let mongoose = require('mongoose'),
+    Schema = mongoose.Schema;
+
+let billSchema = new Schema({
+    type: {
+        type: String,
+        required: true,
+        enum:['registration', 'accomodation']
+    },
+    totalPrice:{
+        type: Number,
+        required: true,
+    },
+    VANumber:{ //Bisa dapet atau return dari API BNI eCollection
+        type: Number,
+        // required: true
+    },
+    createdAt:{ 
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    payment:{
+        status:{
+            type: String,
+            required: true,
+            enum:['waiting', 'paid']
+        },
+        date:{
+            type: Date,
+        }
+    },
+    school:{ //harus populate
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'School'
+    },
+    registration:{
+        teams:[{
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: 'Team'
+        }],
+        numberOfStudent:{
+            type: Number,
+            required: true
+        },
+        teachers:[{
+            type: Schema.Types.ObjectId,
+            required: true,
+            ref: 'Teacher'
+        }],
+        numberOfTeacher:{
+            type: Number,
+            required: true
+        }
+    },
+    // accomodation:{
+
+    // }
+});
+
+// create a model
+let Bill = mongoose.model('Bill', billSchema);
+
+// export the model
+module.exports = Bill;

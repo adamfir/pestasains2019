@@ -18,15 +18,20 @@ class SchoolController{
     }
     static async listBySchool(req,res){
         try{
-            let {sub, privilege} = req.decoded;
+            let {sub, privilege} = req.decoded,
+                {school} = req.params,
+                students = null;
             if(privilege == "school"){
-                let students = await StudentModel.find({school:sub});
+                students = await StudentModel.find({school:sub});
                 return res.status(200).json({message:"Success.", students});
             }
             else{
                 // someday will be securing this API
                 // return res.status(401).json({message:"Not allowed.", students:null});
-                let students = await StudentModel.find();
+                if(school==null || school==undefined)
+                    students = await StudentModel.find();
+                else
+                    students = await StudentModel.find({school});
                 return res.status(200).json({message:"Success.", students});
             }
         }catch(e){

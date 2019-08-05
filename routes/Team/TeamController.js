@@ -70,6 +70,26 @@ class TeamController {
             return res.status(400).json({success:false, message:e.message});
         }
     }
+    static async populatedTeams(teams){
+        let populatedTeams = [];
+        for(let i=0;i<teams.length;i++){
+            let temp = await TeamModel.findById({_id:teams[i]}).populate('contest','pricePerStudent');
+            populatedTeams.push(temp);
+        }
+        return populatedTeams;
+    }
+    static async findBySchool(school,populate){
+        try{
+            let teams = null;
+            if(populate){
+                teams = await TeamModel.find({school}).populate(populate);
+            }
+            return teams;
+        }
+        catch(e){
+            throw e;
+        }
+    }
 }
 
 module.exports = TeamController;

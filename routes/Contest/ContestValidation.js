@@ -20,6 +20,8 @@ module.exports = {
             img: joi.string().required(),
             memberPerTeam: joi.number().required(),
             maxTeam: joi.number().required(),
+            pricePerStundent: joi.number().required(),
+            registrationStatus: joi.string().required(),
         }),
         edit: joi.object().keys({
             _id: joi.string().required(),
@@ -27,6 +29,8 @@ module.exports = {
             name: joi.string().required(),
             memberPerTeam: joi.number().required(),
             maxTeam: joi.number().required(),
+            pricePerStundent: joi.number().required(),
+            registrationStatus: joi.string().required(),
         }),
         delete: joi.object().keys({
             _id: joi.string().required(),

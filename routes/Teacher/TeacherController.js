@@ -62,6 +62,14 @@ class TeacherController {
             return res.status(400).json({message:e.message, teacher:null});
         }
     }
+    static async findBySchool(school){
+        try{
+            let teachers = await TeacherModel.find({school});
+            return teachers;
+        }catch(e){
+            throw e;
+        }
+    }
 }
 
 module.exports = TeacherController;

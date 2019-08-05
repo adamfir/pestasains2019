@@ -28,6 +28,9 @@ class SchoolController{
             return res.status(500).json({message:e.message,schools:null});
         }
     }
+    static async getModel(){
+        return SchoolModel;
+    }
 }
 
 module.exports = SchoolController;

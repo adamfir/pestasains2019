@@ -23,6 +23,10 @@ let teacherSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'School'
+    },
+    isFinal:{
+        type: Boolean,
+        default: false
     }
 });
 

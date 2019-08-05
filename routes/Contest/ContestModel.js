@@ -19,7 +19,15 @@ let contestSchema = new Schema({
         type: String,
         required: true
     },
-    
+    pricePerStundent:{
+        type: Number,
+        required: true
+    },
+    registrationStatus:{
+        type: String,
+        enum: ['open', 'close'],
+        default: 'open'
+    }
 });
 
 // create a model
