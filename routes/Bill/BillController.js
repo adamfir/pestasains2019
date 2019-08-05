@@ -40,7 +40,7 @@ class BillController {
             let data = {
                 type:"createbilling",
                 client_id: cid,
-                trx_id: mongoose.Types.ObjectId(),
+                trx_id: '001',
                 trx_amount: totalPrice,
                 billing_type : "c",
                 customer_name : schoolData.name
