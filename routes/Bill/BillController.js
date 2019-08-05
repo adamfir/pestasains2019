@@ -49,7 +49,7 @@ class BillController {
             let request = await axios({
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
-                url: 'https://api.bni-ecollection.com/',
+                url: 'https://apibeta.bni-ecollection.com/',
                 data: encryptedData
             });
             console.log(request);
