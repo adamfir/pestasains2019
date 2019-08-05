@@ -9,6 +9,7 @@ var SchoolRouter = require('./School/schoolRouter');
 var ParamRouter = require('./Params/ParamRouter');
 var TeacherRouter = require('./Teacher/TeacherRouter');
 var BillRouter = require('./Bill/BillRouter');
+var AccommodationRouter = require('./Accommodation/AccommodationRouter');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -23,5 +24,6 @@ router.use('/schools',SchoolRouter);
 router.use('/params',ParamRouter);
 router.use('/teachers',TeacherRouter);
 router.use('/bills',BillRouter);
+router.use('/accommodation',AccommodationRouter);
 
 module.exports = router;
