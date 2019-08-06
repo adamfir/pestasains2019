@@ -5,7 +5,7 @@ let billSchema = new Schema({
     type: {
         type: String,
         required: true,
-        enum:['registration', 'accomodation']
+        enum:['registration', 'accommodation']
     },
     totalPrice:{
         type: Number,
