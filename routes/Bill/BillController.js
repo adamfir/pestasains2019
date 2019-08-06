@@ -11,7 +11,7 @@ class BillController {
         
     }
     static async create(req,res,next){
-        // try{ //only for school
+        try{ //only for school
             let {type, school} = req.value.body;
             let teams = await TeamController.findBySchool(school,{path: 'contest'});
             let teachers = await TeacherController.findBySchool(school);
@@ -51,13 +51,20 @@ class BillController {
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
                 url: 'https://apibeta.bni-ecollection.com/',
-                data: encryptedData
+                data: {
+                    client_id: cid,
+                    data: encryptedData
+                }
             });
-            console.log(request);
+            // let request = await axios.post('https://apibeta.bni-ecollection.com',{
+            //     client_id: cid,
+            //     data: encryptedData
+            // })
+            console.log(request); 
             res.status(201).json({type, school, teams, teachers, totalPrice});
-        // }catch(e){
-        //     res.status(400).json({message: e.message});
-        // }
+        }catch(e){
+            res.status(400).json({message: e.message});
+        }
     }
     static async callback(req,res,next){
         let {client_id, data} = req.body;
