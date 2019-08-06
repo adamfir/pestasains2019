@@ -60,7 +60,7 @@ class BillController {
             //     client_id: cid,
             //     data: encryptedData
             // })
-            console.log(request); 
+            console.log(request.data); 
             res.status(201).json({type, school, teams, teachers, totalPrice});
         }catch(e){
             res.status(400).json({message: e.message});
