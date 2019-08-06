@@ -42,16 +42,17 @@ class BillController {
                 let data = {
                     type:"createbilling",
                     client_id: cid,
-                    trx_id: '001',
+                    trx_id: mongoose.Types.ObjectId(),
                     trx_amount: totalPrice,
                     billing_type : "c",
                     customer_name : schoolData.name
                 }
                 let encryptedData = PaymentEncription.encrypt(data,cid,sck);
+                // console.log("hallo");
                 let request = await axios({
                     method: 'post',
                     headers: {'Content-Type':'application/json'},
-                    url: 'https://apibeta.bni-ecollection.com/',
+                    url: 'http://103.56.206.107:3001/create',
                     data: {
                         client_id: cid,
                         data: encryptedData
