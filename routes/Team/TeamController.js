@@ -82,7 +82,7 @@ class TeamController {
         try{
             let teams = null;
             if(populate){
-                teams = await TeamModel.find({school}).populate(populate);
+                teams = await TeamModel.find({school,isPaid:{$ne:true}}).populate(populate);
             }
             return teams;
         }

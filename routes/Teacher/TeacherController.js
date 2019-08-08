@@ -64,7 +64,7 @@ class TeacherController {
     }
     static async findBySchool(school){
         try{
-            let teachers = await TeacherModel.find({school});
+            let teachers = await TeacherModel.find({school,isPaid:{$ne:true}});
             return teachers;
         }catch(e){
             throw e;

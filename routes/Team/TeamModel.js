@@ -21,7 +21,7 @@ let teamSchema = new Schema({
         required: true,
         ref: 'Student'
     }],
-    isFinal:{
+    isPaid:{
         type: Boolean,
         default: false,
     }

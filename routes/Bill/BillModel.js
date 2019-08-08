@@ -2,6 +2,10 @@ let mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 let billSchema = new Schema({
+    _id:{
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     type: {
         type: String,
         required: true,
@@ -38,7 +42,6 @@ let billSchema = new Schema({
     registration:{
         teams:[{
             type: Schema.Types.ObjectId,
-            required: true,
             ref: 'Team'
         }],
         numberOfStudent:{
@@ -47,7 +50,6 @@ let billSchema = new Schema({
         },
         teachers:[{
             type: Schema.Types.ObjectId,
-            required: true,
             ref: 'Teacher'
         }],
         numberOfTeacher:{

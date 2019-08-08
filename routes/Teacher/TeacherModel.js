@@ -24,7 +24,7 @@ let teacherSchema = new Schema({
         required: true,
         ref: 'School'
     },
-    isFinal:{
+    isPaid:{
         type: Boolean,
         default: false
     }
