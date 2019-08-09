@@ -20,7 +20,7 @@ module.exports = {
             img: joi.string().required(),
             memberPerTeam: joi.number().required(),
             maxTeam: joi.number().required(),
-            pricePerStundent: joi.number().required(),
+            pricePerStudent: joi.number().required(),
             registrationStatus: joi.string().required(),
         }),
         edit: joi.object().keys({
@@ -29,7 +29,7 @@ module.exports = {
             name: joi.string().required(),
             memberPerTeam: joi.number().required(),
             maxTeam: joi.number().required(),
-            pricePerStundent: joi.number().required(),
+            pricePerStudent: joi.number().required(),
             registrationStatus: joi.string().required(),
         }),
         delete: joi.object().keys({

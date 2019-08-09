@@ -10,8 +10,8 @@ class ContestController {
         if(privilege != 'admin')
             return res.status(401).json({message: "Not allowed.", contest:null});
         try{
-            let {name, memberPerTeam, maxTeam, img, pricePerStundent, registrationStatus} = req.value.body,
-                contest = await ContestModel.create({name, memberPerTeam, maxTeam, img, pricePerStundent, registrationStatus});
+            let {name, memberPerTeam, maxTeam, img, pricePerStudent, registrationStatus} = req.value.body,
+                contest = await ContestModel.create({name, memberPerTeam, maxTeam, img, pricePerStudent, registrationStatus});
             return res.status(201).json({message: "Success.", contest});
         }catch(e){
             return res.status(500).json({message:e.message, contest:null})
