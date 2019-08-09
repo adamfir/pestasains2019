@@ -36,13 +36,15 @@ class BillController {
                     totalTeacher = await TeacherModel.count({school:school._id});
                 if(teams.length != 0){
                     for(let i=0; i<teams.length; i++){
-                        let price = teams[i].contest.memberPerTeam * teams[i].contest.pricePerStundent;
+                        let price = teams[i].contest.memberPerTeam * teams[i].contest.pricePerStudent;
+                        console.log(40,price,teams[i].contest.memberPerTeam,teams[i].contest.pricePerStudent);
                         totalPrice+=price;
                         numberOfStudent += teams[i].contest.memberPerTeam;
                         teams[i].isPaid = true;
                         await teams[i].save();
                     }
                 }
+                console.log(46, totalPrice);
                 if(teachers.length != 0){
                     if(totalStudent<5){
                         if(totalTeacher-numberOfTeacher >= 1){
@@ -84,6 +86,7 @@ class BillController {
                         await teachers[i].save();
                     }
                 }
+                console.log(87, totalPrice);
             }else if(type == 'accommodation'){
                 /**
                  * Disini proses penghitungan tagihan penginapan.
@@ -92,14 +95,15 @@ class BillController {
                  * 3. POST ke bank
                  * 4. simpan ke DB
                  */
-                let bookings = await BookingModel.find({school}).populate('accommodation');
-                for(let i=0; i<bookings.length; i++){
-                    totalPrice+=bookings[i].accommodation.pricePerNight; // Kurang atribut durasi booking
-                }
-                return res.json({bookings, totalPrice, message: "API belum siap."});
+                // let bookings = await BookingModel.find({school}).populate('accommodation');
+                // for(let i=0; i<bookings.length; i++){
+                //     totalPrice+=bookings[i].accommodation.pricePerNight; // Kurang atribut durasi booking
+                // }
+                // return res.json({bookings, totalPrice, message: "API belum siap."});
             }else{
                 throw new Error('invalid bill type');
             }
+            console.log(108, totalPrice);
             let data = {
                 type:"createbilling",
                 client_id: cid,
@@ -117,9 +121,11 @@ class BillController {
                         client_id: cid,
                         data: encryptedData
                     }
-                }),
-                result = request.data.data, decryptedData = PaymentEncription.decrypt(result.data,cid,sck),
+                });
+            // console.log(request,data);
+            let result = request.data.data, decryptedData = PaymentEncription.decrypt(result.data,cid,sck),
                 bill = null;
+            // console.log(result);
             if(type == 'registration'){
                 bill = await BillModel.create({
                     _id:trx_id,type,totalPrice,VANumber:decryptedData.virtual_account,
