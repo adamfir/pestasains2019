@@ -1,4 +1,5 @@
 let TeamModel = require('./TeamModel');
+let ContestModel = require('../Contest/ContestModel');
 
 class TeamController {
     constructor(params) {
@@ -11,10 +12,16 @@ class TeamController {
             if(privilege != 'school'){
                 return res.status(401).json({success:false,team:null});
             }
+            let contest = await ContestModel.findById({_id:contest});
+            let maxTeam = contest.maxTeam;
+            let teamRegistered = await TeamModel.count({contest});
+            if(teamRegistered >= maxTeam){
+                return res.status(200).json({success:false, message:"Kuota sudah penuh", team:null})
+            }
             let team = await TeamModel.create({name, contest, school:sub, student});
             return res.status(201).json({success:true,team});
         }catch(e){
-            return res.status(500).json({success:false,team:null});
+            return res.status(400).json({success:false,team:null});
         }
     }
     static async list(req,res){

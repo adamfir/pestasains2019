@@ -1,4 +1,5 @@
 let ContestModel = require('./ContestModel');
+let TeamModel = require('../Team/TeamModel');
 
 class ContestController {
     constructor(params) {
@@ -21,8 +22,14 @@ class ContestController {
         try{
             let {registrationStatus} = req.query,
                 condition = (registrationStatus?{registrationStatus}:{}),
-                contests = await ContestModel.find(condition);
-            console.log(condition,registrationStatus);
+                data = await ContestModel.find(condition),
+                contests = [];
+            for (let i = 0; i < data.length; i++) {
+                let contest = data[i].toObject();
+                contest.registeredTeam = await TeamModel.find({contest:contest._id}).count();
+                contests.push(contest);
+            }
+            // console.log(condition,registrationStatus);
             return res.status(200).json({message:"Success.",contests});
         }catch(e){
             return res.status(500).json({message:e.message, contests:null})
