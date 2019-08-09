@@ -158,6 +158,15 @@ class BillController {
             return res.json({message:e.message});
         }
     }
+    static async count(req,res){
+        try {
+            let {school} = req.params,
+                totalBill = await BillModel.count({school});
+            return res.status(200).json({totalBill});
+        } catch (e) {
+            return res.status(400).json({message:e.message, totalBill:null});
+        }
+    }
 }
 
 module.exports = BillController;

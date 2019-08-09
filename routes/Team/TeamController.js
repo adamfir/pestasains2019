@@ -90,6 +90,15 @@ class TeamController {
             throw e;
         }
     }
+    static async count(req,res){
+        try {
+            let {school} = req.params,
+                totalTeams = await TeamModel.count({school});
+            return res.status(200).json({totalTeams});
+        } catch (e) {
+            return res.status(400).json({message:e.message, totalTeams:null});
+        }
+    }
 }
 
 module.exports = TeamController;

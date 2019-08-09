@@ -73,6 +73,15 @@ class SchoolController{
             return res.status(500).json({message:"Failed",student:null});
         }
     }
+    static async count(req,res){
+        try {
+            let {school} = req.params,
+                totalStudent = await StudentModel.count({school});
+            return res.status(200).json({totalStudent});
+        } catch (e) {
+            return res.status(400).json({message:e.message, totalStudent:null});
+        }
+    }
 }
 
 module.exports = SchoolController;

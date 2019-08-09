@@ -70,6 +70,15 @@ class TeacherController {
             throw e;
         }
     }
+    static async count(req,res){
+        try {
+            let {school} = req.params,
+                totalTeacher = await TeacherModel.count({school});
+            return res.status(200).json({totalTeacher});
+        } catch (e) {
+            return res.status(400).json({message:e.message, totalTeacher:null});
+        }
+    }
 }
 
 module.exports = TeacherController;

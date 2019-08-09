@@ -9,6 +9,7 @@ router.get('/', JWtController.checkToken, TeamController.list);
 router.put('/', JWtController.checkToken, validateBody(schemas.edit), TeamController.edit);
 router.delete('/:_id', JWtController.checkToken, TeamController.delete);
 router.get('/:_id', JWtController.checkToken, TeamController.get);
+router.get('/count/:school', JWtController.checkToken, TeamController.count);
 
 
 module.exports = router;

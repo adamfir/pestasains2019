@@ -19,7 +19,10 @@ class ContestController {
     }
     static async list(req,res){
         try{
-            let contests = await ContestModel.find({});
+            let {registrationStatus} = req.query,
+                condition = (registrationStatus?{registrationStatus}:{}),
+                contests = await ContestModel.find(condition);
+            console.log(condition,registrationStatus);
             return res.status(200).json({message:"Success.",contests});
         }catch(e){
             return res.status(500).json({message:e.message, contests:null})

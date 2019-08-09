@@ -10,6 +10,7 @@ router.get('/:_id', JWtController.checkToken, JWtController.isSchool, TeacherCon
 router.get('/school/:school', JWtController.checkToken, TeacherController.listBySchool);
 router.put('/', JWtController.checkToken, JWtController.isSchool, validateBody(schemas.edit), TeacherController.edit);
 router.delete('/:_id', JWtController.checkToken, JWtController.isSchool, TeacherController.delete);
+router.get('/count/:school', JWtController.checkToken, TeacherController.count);
 // router.post('/login', validateBody(schemas.schoolLogin), StudentController.schoolLogin);
 
 module.exports = router;
