@@ -31,6 +31,15 @@ class SchoolController{
     static async getModel(){
         return SchoolModel;
     }
+    static async get(req,res){
+        try {
+            let {_id} = req.params,
+                school = await SchoolModel.findById({_id});
+            return res.status(200).json({school});
+        } catch (e) {   
+            return res.status(400).json({message:e.message});
+        }
+    }
 }
 
 module.exports = SchoolController;
