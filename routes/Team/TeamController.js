@@ -57,7 +57,7 @@ class TeamController {
     }
     static async delete(req,res){
         try{
-            let {_id} = req.value.body,
+            let {_id} = req.params,
                 {sub} = req.decoded,
                 team = await TeamModel.findById({_id});
             console.log(_id);

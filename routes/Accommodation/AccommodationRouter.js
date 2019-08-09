@@ -7,6 +7,6 @@ let express = require('express'),
 router.post('/', JWtController.checkToken, JWtController.isAdmin, validateBody(schemas.create), AccomodationController.create);
 router.put('/', JWtController.checkToken, JWtController.isAdmin, validateBody(schemas.edit), AccomodationController.edit);
 router.get('/', AccomodationController.list);
-router.delete('/', JWtController.checkToken, JWtController.isAdmin, validateBody(schemas.delete), AccomodationController.delete);
+router.delete('/:_id', JWtController.checkToken, JWtController.isAdmin, AccomodationController.delete);
 
 module.exports = router;

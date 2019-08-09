@@ -19,7 +19,7 @@ let contestSchema = new Schema({
         type: String,
         required: true
     },
-    pricePerStundent:{
+    pricePerStudent:{
         type: Number,
         required: true
     },

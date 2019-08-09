@@ -38,7 +38,7 @@ class BookingController {
     }
     static async delete(req,res){
         try {
-            let {_id} = req.value.body,
+            let {_id} = req.params,
                 booking = await BookingModel.deleteOne({_id});
             return res.status(200).json({message:"Success",booking});
         

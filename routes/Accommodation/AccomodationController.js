@@ -37,7 +37,7 @@ class AccommodationController {
     }
     static async delete(req,res,next){
         try{
-            let {_id} = req.value.body,
+            let {_id} = req.params,
                 accommodation = await AccommodationModel.deleteOne({_id});
             return res.status(200).json({message: "Success"});
         }catch(e){

@@ -41,7 +41,7 @@ class ParamController {
     }
     static async delete(req,res){
         try{
-            let {code} = req.value.body,
+            let {code} = req.params,
                 param = await ParamModel.findOneAndRemove({code})
             return res.status(201).json({message:"Success"});
         }catch(e){

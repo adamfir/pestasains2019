@@ -42,7 +42,7 @@ class ContestController {
         if(privilege != 'admin')
             return res.status(401).json({message: "Not allowed.", contest:null});
         try{
-            let {_id} = req.value.body,
+            let {_id} = req.params,
                 contest = await ContestModel.findByIdAndDelete({_id});
             return res.status(200).json({message:"Success",contest});
         }catch(e){

@@ -7,7 +7,7 @@ let express = require('express'),
 router.post('/', JWtController.checkToken, validateBody(schemas.create), TeamController.create);
 router.get('/', JWtController.checkToken, TeamController.list);
 router.put('/', JWtController.checkToken, validateBody(schemas.edit), TeamController.edit);
-router.delete('/', JWtController.checkToken, validateBody(schemas.delete), TeamController.delete);
+router.delete('/:_id', JWtController.checkToken, TeamController.delete);
 router.get('/:_id', JWtController.checkToken, TeamController.get);
 
 

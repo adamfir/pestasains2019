@@ -46,7 +46,7 @@ class TeacherController {
     }
     static async delete(req,res){
         try{
-            let {_id} = req.value.body,
+            let {_id} = req.params,
                 teacher = await TeacherModel.findByIdAndRemove({_id});
             return res.status(201).json({message:"Success"});
         }catch(e){

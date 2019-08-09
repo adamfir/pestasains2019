@@ -61,7 +61,7 @@ class SchoolController{
         if(privilege != 'school')
             return res.status(401).json({message: "Not allowed.", student:null});
         try{
-            let {_id} = req.value.body,
+            let {_id} = req.params,
                 student = await StudentModel.findById({_id});
             if(sub == student.school){
                 await student.remove();

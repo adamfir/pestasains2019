@@ -6,6 +6,6 @@ let express = require('express'),
 
 router.post('/', JWtController.checkToken, JWtController.isSchool, validateBody(schemas.create), BookingController.create);
 router.get('/',  JWtController.checkToken, BookingController.list);
-router.delete('/', JWtController.checkToken, JWtController.isSchool, validateBody(schemas.delete), BookingController.delete);
+router.delete('/:_id', JWtController.checkToken, JWtController.isSchool, BookingController.delete);
 
 module.exports = router;
