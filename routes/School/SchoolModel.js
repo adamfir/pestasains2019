@@ -31,6 +31,8 @@ let schoolSchema = new Schema({
     }
 });
 
+schoolSchema.index({name:'text'});
+
 schoolSchema.pre('save', async function (next) {
     if (this.password) {
         try {

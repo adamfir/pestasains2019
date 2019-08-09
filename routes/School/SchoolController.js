@@ -40,6 +40,17 @@ class SchoolController{
             return res.status(400).json({message:e.message});
         }
     }
+    static async search(req,res){
+        try {
+            let {searchString,skip,limit} = req.params,
+                schools = await SchoolModel.find({
+                    $text:{$search: searchString}
+                });
+            return res.status(200).json({schools});
+        } catch (e) {
+            return res.status(400).json({message:e.message});
+        }
+    }
 }
 
 module.exports = SchoolController;
