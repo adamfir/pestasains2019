@@ -28,7 +28,7 @@ class SchoolController{
             else{
                 // someday will be securing this API
                 // return res.status(401).json({message:"Not allowed.", students:null});
-                if(school==null || school==undefined)
+                if(school=="all")
                     students = await StudentModel.find();
                 else
                     students = await StudentModel.find({school});
