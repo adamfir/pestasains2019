@@ -5,7 +5,7 @@ let express = require('express'),
     JWTController = require('../JWT/JWTController');
 
 router.get('/', SchoolController.list);
-router.get('/:_id', SchoolController.get);
+router.get('/detail/:_id', SchoolController.get);
 router.get('/search', SchoolController.search);
 
 module.exports = router;
