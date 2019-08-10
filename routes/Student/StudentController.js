@@ -82,6 +82,15 @@ class SchoolController{
             return res.status(400).json({message:e.message, totalStudent:null});
         }
     }
+    static async getAvailable(req,res){
+        try {
+            let {school} = req.params;
+            let students = await StudentModel.find({school,team:null});
+            return res.status(200).json({students});
+        } catch (e) {
+            return res.status(400).json({message:e.message, students:null});
+        }
+    }
 }
 
 module.exports = SchoolController;

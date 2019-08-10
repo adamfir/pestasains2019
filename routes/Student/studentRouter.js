@@ -9,6 +9,7 @@ router.get('/school/:school', JWtController.checkToken, StudentController.listBy
 router.put('/', JWtController.checkToken, JWtController.isSchool, validateBody(schemas.edit), StudentController.edit);
 router.delete('/:_id', JWtController.checkToken, JWtController.isSchool, StudentController.delete);
 router.get('/count/:school', JWtController.checkToken, StudentController.count);
+router.get('/available/:school', JWtController.checkToken, StudentController.getAvailable);
 // router.post('/login', validateBody(schemas.schoolLogin), StudentController.schoolLogin);
 
 module.exports = router;

@@ -80,9 +80,14 @@ class TeamController {
                 {sub} = req.decoded,
                 team = await TeamModel.findById({_id});
             console.log(_id);
-            if(sub != team.school){
-                return res.status(401).json({message:"Not allowed, school id not match."});
+            // if(sub != team.school){
+            //     return res.status(401).json({message:"Not allowed, school id not match."});
+            // }
+            for (let i = 0; i < team.student.length; i++) {
+                await StudentModel.findByIdAndUpdate({_id:team.student[i]},{team:null});
             }
+            if(team.isPaid == true)
+                return res.status(400).json({success:false, message:"Team sudah dibayar, tidak dapat dihapus."});
             await team.remove();
             return res.status(200).json({success:true, message:"Success"});
         }catch(e){
