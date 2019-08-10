@@ -19,6 +19,10 @@ let studentSchema = new Schema({
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'School'
+    },
+    team:{
+        type: Schema.Types.ObjectId,
+        ref: 'Team'
     }
 });
 

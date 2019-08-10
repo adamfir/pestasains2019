@@ -1,5 +1,6 @@
 let TeamModel = require('./TeamModel');
 let ContestModel = require('../Contest/ContestModel');
+let StudentModel = require('../Student/StudentModel');
 
 class TeamController {
     constructor(params) {
@@ -19,6 +20,9 @@ class TeamController {
                 return res.status(200).json({success:false, message:"Kuota sudah penuh", team:null})
             }
             let team = await TeamModel.create({name, contest, school:sub, student});
+            for (let i = 0; i < student.length; i++) {
+                await StudentModel.findByIdAndUpdate({_id:student[i]},{team:team._id});
+            }
             return res.status(201).json({success:true,team});
         }catch(e){
             return res.status(400).json({success:false,team:null,message:e.message});
@@ -56,7 +60,15 @@ class TeamController {
             if(team.school != sub){
                 return res.status(401).json({message:"Not allowed, school id not match."});
             }
+            // hapus id tim di student
+            for (let i = 0; i < team.student.length; i++) {
+                await StudentModel.findByIdAndUpdate({_id:team.student[i]},{team:null});
+            } 
             await team.update({name,student});
+            // assign id tim ke student baru
+            for (let i = 0; i < student.length; i++) {
+                await StudentModel.findByIdAndUpdate({_id:student[i]},{team:team._id});
+            }
             return res.status(200).json({message:"Success"});
         }catch(e){
             return res.status(400).json({message:e.message})
