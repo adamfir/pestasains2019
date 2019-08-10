@@ -123,6 +123,16 @@ class TeamController {
             return res.status(400).json({message:e.message, totalTeams:null});
         }
     }
+    static async getUnpaid(req,res){
+        try {
+            let {school} = req.params,
+                teams = await TeamModel.find({school, isPaid:false});
+            console.log(school)
+            return res.status(200).json({teams});
+        } catch (e) {
+            return res.status(400).json({message:e.message});
+        }
+    }
 }
 
 module.exports = TeamController;
