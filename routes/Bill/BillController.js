@@ -9,7 +9,7 @@ let PaymentEncription = require('../Midleware/PaymentEncription');
 let axios = require('axios');
 let BookingModel = require('../Booking/BookingModel');
 let mongoose = require('mongoose');
-
+let cid = '00298', sck = '787b175aeb54a1e133fb71b5d2ebe11d'
 class BillController {
     constructor(params) {
         
@@ -142,9 +142,15 @@ class BillController {
     }
     static async callback(req,res,next){
         // urus lagi nanti, update bill ke database
-        let {client_id, data} = req.body;
-        console.log(client_id,data);
-        return res.json({client_id,data});
+        try {
+            let {client_id, data} = req.body,
+                decryptedData = PaymentEncription.decrypt(data,cid,sck);
+            let bill = await BillModel.findByIdAndUpdate({_id:decryptedData.trx_id},{payment:{status:'paid',data:Date.now()}});
+            console.log({trx: data.trx_id, message:"Bill berhasil diupdate"});
+            return res.json({trx: data.trx_id, message:"Bill berhasil diupdate"});
+        } catch (e) {
+            return res.json({message:e.message});
+        }
     }
     static async get(req,res){
         let {_id} = req.params;
