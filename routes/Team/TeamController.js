@@ -30,13 +30,19 @@ class TeamController {
     }
     static async list(req,res){
         try{
-            let {school, contest} = req.query, teams=null;
+            let {school, contest, populateContest, populateStudent} = req.query, teams=null;
             if(school){
-                teams = await TeamModel.find({school});
+                teams = await TeamModel.find({school})
+                .populate((populateContest==1?'contest':''))
+                .populate((populateStudent==1?'student':''));
             }else if(contest){
-                teams = await TeamModel.find({contest});
+                teams = await TeamModel.find({contest})
+                .populate((populateContest==1?'contest':''))
+                .populate((populateStudent==1?'student':''));
             }else{
-                teams = await TeamModel.find({});
+                teams = await TeamModel.find({})
+                .populate((populateContest==1?'contest':''))
+                .populate((populateStudent==1?'student':''));
             }
             return res.status(200).json({message:"Success",teams});
         }catch(e){
@@ -45,8 +51,10 @@ class TeamController {
     }
     static async get(req,res){
         try{
-            let {_id} = req.params,
-                team = await TeamModel.findById({_id});
+            let {_id} = req.params, {populateContest,populateStudent} = req.query,
+                team = await TeamModel.findById({_id})
+                .populate((populateContest==1?'contest':''))
+                .populate((populateStudent==1?'student':''));
             return res.status(200).json({message:"Success", team});
         }catch(e){
             return res.status(500).json({message:e.message, team:null});
@@ -125,9 +133,11 @@ class TeamController {
     }
     static async getUnpaid(req,res){
         try {
-            let {school} = req.params,
-                teams = await TeamModel.find({school, isPaid:false});
-            console.log(school)
+            let {school} = req.params, {populateContest,populateStudent}=req.query,
+                teams = await TeamModel.find({school, isPaid:false})
+                .populate((populateContest==1?'contest':''))
+                .populate((populateStudent==1?'student':''));
+            // console.log(school)
             return res.status(200).json({teams});
         } catch (e) {
             return res.status(400).json({message:e.message});
