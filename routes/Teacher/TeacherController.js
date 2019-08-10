@@ -79,6 +79,15 @@ class TeacherController {
             return res.status(400).json({message:e.message, totalTeacher:null});
         }
     }
+    static async getUnpaid(req,res){
+        try {
+            let {school} = req.params,
+                teachers = await TeacherModel.find({school,isPaid:false});
+            return res.status(200).json({teachers});
+        } catch (e) {
+            return res.status(400).json({message:e.message});
+        }
+    }
 }
 
 module.exports = TeacherController;
