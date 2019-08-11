@@ -139,7 +139,7 @@ class BillController {
             // console.log(result);
             if(type == 'registration'){
                 bill = await BillModel.create({
-                    _id:trx_id,type,totalPrice,VANumber:decryptedData.virtual_account,
+                    _id:trx_id,type,totalPrice,VANumber:virtual_account,
                     payment:{status:'waiting'},school,registration:
                     {
                         teams,teachers,numberOfStudent:numberOfStudent,numberOfTeacher:numberOfTeacher
