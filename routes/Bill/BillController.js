@@ -28,9 +28,11 @@ class BillController {
                 trx_id = mongoose.Types.ObjectId(),
                 lastVA = await ParamModel.findOne({code:"LAST_VA"}),
                 firstVA = Math.floor(1000 + Math.random() * 9000),
-                VA = firstVA.toString() + lastVA.toString();
-            lastVA.value += 1;
+                virtual_account = "98800298"+firstVA.toString() + lastVA.value,
+                nextValue = (parseInt(lastVA.value)+1).toString();
+            lastVA.value = "0".repeat(4-nextValue.length)+nextValue;
             lastVA.save();
+            console.log(virtual_account);
             school = await SchoolModel.findById({_id:school});
             if(type == 'registration'){
                 teams = await TeamModel.find({school,isPaid:{$ne:true}}).populate({path: 'contest'}); //TeamController.findBySchool(school._id,{path: 'contest'});
@@ -109,8 +111,8 @@ class BillController {
             }else{
                 throw new Error('invalid bill type');
             }
-            totalPrice += Math.floor(Math.random()*(899)+100);
             console.log(108, totalPrice);
+            totalPrice += Math.floor(Math.random()*(899)+100);
             // throw new Error(totalPrice);
             let data = {
                 type:"createbilling",
@@ -119,7 +121,7 @@ class BillController {
                 trx_amount: totalPrice,
                 billing_type : "c",
                 customer_name : school.name,
-                virtual_account: VA
+                virtual_account
             }
             let encryptedData = PaymentEncription.encrypt(data,cid,sck),
                 request = await axios({
