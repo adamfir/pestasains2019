@@ -111,7 +111,7 @@ class BillController {
             }else{
                 throw new Error('invalid bill type');
             }
-            console.log(108, totalPrice);
+            console.log(108, totalPrice,virtual_account);
             totalPrice += Math.floor(Math.random()*(899)+100);
             // throw new Error(totalPrice);
             let data = {
@@ -136,7 +136,7 @@ class BillController {
             // console.log(request,data);
             let result = request.data.data, decryptedData = PaymentEncription.decrypt(result.data,cid,sck),
                 bill = null;
-            // console.log(result);
+            console.log(virtual_account);
             if(type == 'registration'){
                 bill = await BillModel.create({
                     _id:trx_id,type,totalPrice,VANumber:virtual_account,
