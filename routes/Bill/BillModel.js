@@ -16,7 +16,7 @@ let billSchema = new Schema({
         required: true,
     },
     VANumber:{ //Bisa dapet atau return dari API BNI eCollection
-        type: Number,
+        type: String,
         // required: true
     },
     createdAt:{ 
