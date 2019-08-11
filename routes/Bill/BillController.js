@@ -36,7 +36,7 @@ class BillController {
                     totalTeacher = await TeacherModel.count({school:school._id});
                 if(teams.length != 0){
                     for(let i=0; i<teams.length; i++){
-                        let price = teams[i].contest.memberPerTeam * teams[i].contest.pricePerStudent;
+                        let price = parseInt(teams[i].contest.memberPerTeam) * parseInt(teams[i].contest.pricePerStudent);
                         console.log(40,price,teams[i].contest.memberPerTeam,teams[i].contest.pricePerStudent);
                         totalPrice+=price;
                         numberOfStudent += teams[i].contest.memberPerTeam;
@@ -104,6 +104,8 @@ class BillController {
                 throw new Error('invalid bill type');
             }
             console.log(108, totalPrice);
+            totalPrice += Math.floor(Math.random()*(899)+100);
+            // throw new Error(totalPrice);
             let data = {
                 type:"createbilling",
                 client_id: cid,
