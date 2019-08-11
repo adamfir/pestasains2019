@@ -26,7 +26,7 @@ class BillController {
                 numberOfStudent=0,
                 numberOfTeacher=null,
                 trx_id = mongoose.Types.ObjectId(),
-                lastVA = await ParamModel.findOne({code:"VA"}),
+                lastVA = await ParamModel.findOne({code:"LAST_VA"}),
                 firstVA = Math.floor(1000 + Math.random() * 9000),
                 VA = firstVA.toString() + lastVA.toString();
             lastVA.value += 1;
