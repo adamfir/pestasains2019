@@ -109,8 +109,8 @@ class BillController {
             }else{
                 throw new Error('invalid bill type');
             }
-            console.log(108, totalPrice);
             totalPrice += Math.floor(Math.random()*(899)+100);
+            console.log(108, totalPrice);
             // throw new Error(totalPrice);
             let data = {
                 type:"createbilling",
