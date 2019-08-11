@@ -9,7 +9,8 @@ let PaymentEncription = require('../Midleware/PaymentEncription');
 let axios = require('axios');
 let BookingModel = require('../Booking/BookingModel');
 let mongoose = require('mongoose');
-let cid = '00298', sck = '787b175aeb54a1e133fb71b5d2ebe11d'
+let cid = '00298', sck = '787b175aeb54a1e133fb71b5d2ebe11d';
+let ParamModel = require('../Params/ParamModel');
 class BillController {
     constructor(params) {
         
@@ -24,7 +25,12 @@ class BillController {
                 teachers=null,
                 numberOfStudent=0,
                 numberOfTeacher=null,
-                trx_id = mongoose.Types.ObjectId();
+                trx_id = mongoose.Types.ObjectId(),
+                lastVA = await ParamModel.find({code:"VA"}),
+                firstVA = Math.floor(1000 + Math.random() * 9000),
+                VA = firstVA.toString() + lastVA.toString();
+            lastVA.value += 1;
+            lastVA.save();
             school = await SchoolModel.findById({_id:school});
             if(type == 'registration'){
                 teams = await TeamModel.find({school,isPaid:{$ne:true}}).populate({path: 'contest'}); //TeamController.findBySchool(school._id,{path: 'contest'});
@@ -112,7 +118,8 @@ class BillController {
                 trx_id,
                 trx_amount: totalPrice,
                 billing_type : "c",
-                customer_name : school.name
+                customer_name : school.name,
+                virtual_account: VA
             }
             let encryptedData = PaymentEncription.encrypt(data,cid,sck),
                 request = await axios({
