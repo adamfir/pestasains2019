@@ -1,6 +1,7 @@
 let TeamModel = require('./TeamModel');
 let ContestModel = require('../Contest/ContestModel');
 let StudentModel = require('../Student/StudentModel');
+let ExcelJS = require('exceljs');
 
 class TeamController {
     constructor(params) {
@@ -143,6 +144,70 @@ class TeamController {
             return res.status(400).json({message:e.message});
         }
     }
+    static async getExcelByContest(req,res){
+        try{
+            let {contest} = req.params;
+            contest = await ContestModel.findById({_id:contest});
+            let participants = await TeamModel.find({contest:contest._id}).populate({
+                path: "student school",
+            });
+            
+            // Create Excel
+            let workbook = new ExcelJS.Workbook();
+            workbook.properties
+            let worksheet = workbook.addWorksheet(contest.name);
+            worksheet.columns = [
+                {header: 'No', key: 'no', width: 4},
+                // {header: 'Id', key: '_id', width: 10},
+                {header: 'Team', key: 'team', width:15},
+                {header: 'Student Name', key: 'name', width:15},
+                {header: 'Email', key: 'email', width:15},
+                {header: 'Phone', key: 'phone', width:15},
+                {header: 'School', key: 'school', width:15},
+            ]
+            // return res.json({participants});
+            let no = 1;
+            for (let i = 0; i < participants.length; i++) {
+                for (let j = 0; j < participants[i].student.length; j++,no++) {
+                    worksheet.addRow([
+                        no,
+                        // participants[i]._id,
+                        participants[i].name,
+                        participants[i].student[j].name,
+                        participants[i].student[j].email,
+                        participants[i].student[j].phone,
+                        participants[i].school.name,
+                    ])
+                    worksheet.commit;
+                }
+            }
+            let fileName = contest.name+" "+new Date().toISOString().split("T")[0]+'.xlsx';
+            let tempFilePath = __dirname+'/'+fileName;
+            workbook.xlsx.writeFile(tempFilePath).then(()=>{
+                console.log("done");
+                res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+                res.sendFile(tempFilePath,(e)=>{
+                    console.log(e);
+                })
+            })
+            // return res.json({workbook});
+            // worksheet.commit();
+
+            // await this.sendWorkbook(workbook,res);
+        }catch(e){
+            return res.json({message: e.message})
+        }
+    }
+    // static async sendWorkbook(workbook, response) { 
+    //     var fileName = 'FileName.xlsx';
+    
+    //     response.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    //     response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+    
+    //      await workbook.xlsx.write(response);
+    
+    //     response.end();
+    // }
 }
 
 module.exports = TeamController;
