@@ -88,6 +88,14 @@ class TeacherController {
             return res.status(400).json({message:e.message});
         }
     }
+    static async getUnbooked(req,res){
+        try {
+            let teachers = await TeacherModel.find({accommodationBooking:false});
+            return res.status(200).json({teachers});
+        } catch (e) {
+            return res.status(400).json({message:e.message});
+        }
+    }
 }
 
 module.exports = TeacherController;

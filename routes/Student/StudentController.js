@@ -91,6 +91,14 @@ class SchoolController{
             return res.status(400).json({message:e.message, students:null});
         }
     }
+    static async getUnbooked(req,res){
+        try {
+            let students = await StudentModel.find({accommodationBooking:false});
+            return res.status(200).json({students});
+        } catch (e) {
+            return res.status(400).json({message:e.message});
+        }
+    }
 }
 
 module.exports = SchoolController;

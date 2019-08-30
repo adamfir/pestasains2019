@@ -27,6 +27,14 @@ let teacherSchema = new Schema({
     isPaid:{
         type: Boolean,
         default: false
+    },
+    accommodationBooking:{
+        type: Boolean,
+        default: false
+    },
+    accommodationBookingId:{
+        type: Schema.Types.ObjectId,
+        ref: 'Booking'
     }
 });
 

@@ -29,7 +29,7 @@ let bookingSchema = new Schema({
         type: Boolean,
         default: false
     },
-    isPaid:{
+    isPaid:{ //untuk sementara kayanya ga bakal ada tujuannya, tapi buat jaga-jaga ada aja
         type: Boolean,
         default: false
     },

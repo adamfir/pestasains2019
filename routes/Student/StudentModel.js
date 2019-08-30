@@ -24,6 +24,15 @@ let studentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Team',
         default: null
+    },
+    accommodationBooking:{
+        type: Boolean,
+        default: false
+    },
+    accommodationBookingId:{
+        type: Schema.Types.ObjectId,
+        ref: 'Booking',
+        default: null
     }
 });
 

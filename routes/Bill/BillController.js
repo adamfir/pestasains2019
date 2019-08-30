@@ -168,7 +168,7 @@ class BillController {
                         teachers:teachers,students:students
                     }
                 });
-                return res.json({bill,students, teachers})
+                // return res.json({bill,students, teachers})
             }
             return res.status(201).json({bill});
         }catch(e){
