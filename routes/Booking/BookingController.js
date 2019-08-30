@@ -26,10 +26,10 @@ class BookingController {
             let {privilege,sub} = req.decoded,
                 bookings = null;
             if(privilege == 'admin'){
-                bookings = await BookingModel.find({});
+                bookings = await BookingModel.find({}).populate('student teacher accommodation');
             }
             else if(privilege == 'school'){
-                bookings = await BookingModel.find({school:sub});
+                bookings = await BookingModel.find({school:sub}).populate('student teacher accommodation');
             }
             else {
                 throw new Error('Privilege invalid')
