@@ -19,7 +19,12 @@ let accommodationSchema = new Schema({
         type: Number,
         required: true
     },
-
+    startDate: {
+        type: Date
+    },
+    endDate: {
+        type: Date
+    }
 });
 
 // create a model
