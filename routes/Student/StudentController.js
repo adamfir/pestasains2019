@@ -22,7 +22,7 @@ class SchoolController{
                 {school} = req.params,
                 students = null;
             if(privilege == "school"){
-                students = await StudentModel.find({school:sub});
+                students = await StudentModel.find({school});
                 return res.status(200).json({message:"Success.", students});
             }
             else{
