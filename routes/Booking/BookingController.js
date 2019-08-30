@@ -4,14 +4,14 @@ let TeacherModel = require('../Teacher/TeacherModel');
 class BookingController {
     static async create(req,res){
         try{
-            let {userType, student, teacher, accommodation, startDate} = req.value.body,
+            let {userType, student, teacher, accommodation, startDate, duration} = req.value.body,
                 booking = null,
                 school = req.decoded.sub;
             if(userType == 'student'){
-                booking = await BookingModel.create({school, userType, student, accommodation, startDate});
+                booking = await BookingModel.create({school, userType, student, accommodation, startDate, duration});
                 await StudentModel.findByIdAndUpdate({_id:student},{accommodationBooking:true,accommodationBookingId:booking._id});
             } else if(userType == 'teacher'){
-                booking = await BookingModel.create({school, userType, teacher, accommodation, startDate});
+                booking = await BookingModel.create({school, userType, teacher, accommodation, startDate, duration});
                 await TeacherModel.findByIdAndUpdate({_id:teacher},{accommodationBooking:true,accommodationBookingId:booking._id});
             } else{
                 throw new Error('userType invalid'); 
