@@ -23,6 +23,8 @@ class BillController {
                 sck = '787b175aeb54a1e133fb71b5d2ebe11d',
                 teams=null,
                 teachers=null,
+                students=null,
+                bookings=null,
                 numberOfStudent=0,
                 numberOfTeacher=null,
                 trx_id = mongoose.Types.ObjectId(),
@@ -103,11 +105,23 @@ class BillController {
                  * 3. POST ke bank
                  * 4. simpan ke DB
                  */
-                // let bookings = await BookingModel.find({school}).populate('accommodation');
-                // for(let i=0; i<bookings.length; i++){
-                //     totalPrice+=bookings[i].accommodation.pricePerNight; // Kurang atribut durasi booking
-                // }
-                // return res.json({bookings, totalPrice, message: "API belum siap."});
+                bookings = await BookingModel.find({school, isFinal:false}).populate('accommodation');
+                // console.log(bookings);
+                teachers = []; 
+                students = [];
+                for(let i=0; i<bookings.length; i++){
+                    console.log(totalPrice,bookings[i].accommodation.pricePerNight,bookings[i].duration);
+                    totalPrice+=bookings[i].accommodation.pricePerNight*bookings[i].duration; // Kurang atribut durasi booking
+                    bookings[i].isFinal = true;
+                    bookings[i].save();
+                    if(bookings[i].userType == 'teacher'){
+                        teachers.push(bookings[i].teacher);
+                    }
+                    else{
+                        students.push(bookings[i].student);
+                    }
+                }
+                // return res.json({bookings,totalPrice});
             }else{
                 throw new Error('invalid bill type');
             }
@@ -145,6 +159,16 @@ class BillController {
                         teams,teachers,numberOfStudent:numberOfStudent,numberOfTeacher:numberOfTeacher
                     }
                 });
+            }
+            else if(type=='accommodation'){
+                bill = await BillModel.create({
+                    _id:trx_id,type,totalPrice,VANumber:virtual_account,
+                    payment:{status:'waiting'},school,accommodation:
+                    {
+                        teachers:teachers,students:students
+                    }
+                });
+                return res.json({bill,students, teachers})
             }
             return res.status(201).json({bill});
         }catch(e){

@@ -28,6 +28,19 @@ let bookingSchema = new Schema({
     isFinal:{
         type: Boolean,
         default: false
+    },
+    isPaid:{
+        type: Boolean,
+        default: false
+    },
+    duration:{
+        type: Number,
+        default: 1,
+        required: true
+    },
+    startDate:{
+        type: Date,
+        required: true
     }
 });
 

@@ -46,7 +46,7 @@ let billSchema = new Schema({
         }],
         numberOfStudent:{
             type: Number,
-            required: true
+            // required: true
         },
         teachers:[{
             type: Schema.Types.ObjectId,
@@ -54,12 +54,19 @@ let billSchema = new Schema({
         }],
         numberOfTeacher:{
             type: Number,
-            required: true
+            // required: true
         }
     },
-    // accomodation:{
-
-    // }
+    accommodation:{
+        teachers:[{
+            type: Schema.Types.ObjectId,
+            ref: 'Teacher'
+        }],
+        students:[{
+            type: Schema.Types.ObjectId,
+            ref: 'Student'
+        }]
+    }
 });
 
 // create a model

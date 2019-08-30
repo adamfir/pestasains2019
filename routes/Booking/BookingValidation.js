@@ -20,6 +20,7 @@ module.exports = {
             student: joi.string().optional(),
             teacher: joi.string().optional(),
             accommodation: joi.string().required(),
+            startDate: joi.date().required(),
         }),
         // edit: joi.object().keys({
         //     _id: joi.string().required(),
