@@ -90,7 +90,8 @@ class TeacherController {
     }
     static async getUnbooked(req,res){
         try {
-            let teachers = await TeacherModel.find({accommodationBooking:false});
+            let {school}=req.params,
+                teachers = await TeacherModel.find({accommodationBooking:false,school});
             return res.status(200).json({teachers});
         } catch (e) {
             return res.status(400).json({message:e.message});
