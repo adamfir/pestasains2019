@@ -24,12 +24,16 @@ class BookingController {
     static async list(req,res){
         try{
             let {privilege,sub} = req.decoded,
-                bookings = null;
+                {isFinal} = req.query,
+                bookings = null,
+                query = {};
+            (isFinal !== null && isFinal !== undefined ? query.isFinal=isFinal:null);
             if(privilege == 'admin'){
-                bookings = await BookingModel.find({}).populate('student teacher accommodation');
+                bookings = await BookingModel.find(query).populate('student teacher accommodation');
             }
             else if(privilege == 'school'){
-                bookings = await BookingModel.find({school:sub}).populate('student teacher accommodation');
+                query.school = sub;
+                bookings = await BookingModel.find(query).populate('student teacher accommodation');
             }
             else {
                 throw new Error('Privilege invalid')
