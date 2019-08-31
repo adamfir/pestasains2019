@@ -1,5 +1,6 @@
 let AccommodationModel = require('./AccommodationModel'),
-    express = require('express');
+    express = require('express'),
+    BookingModel = require('../Booking/BookingModel');
 
 class AccommodationController {
     static async create(req,res,next){
@@ -14,7 +15,12 @@ class AccommodationController {
     }
     static async list(req,res){
         try{
-            let accommodations = await AccommodationModel.find({});
+            let accommodations = await AccommodationModel.find({}).lean();
+            // console.log(accommodations);
+            for (let i = 0; i < accommodations.length; i++) {
+                // const element = array[i];
+                accommodations[i].bookingAmount = await BookingModel.count({accommodation:accommodations[i]._id});
+            }
             return res.status(200).json({accommodations});
         }catch(e){
             return res.status(400).json({accommodations:null, message: e.message});
@@ -46,6 +52,15 @@ class AccommodationController {
             return res.status(400).json({message: "Failed"});
         }
     }
+    // static async count(req,res){
+    //     try {
+    //         let {accommodation} = req.params,
+    //             bookingAmount = await BookingModel.count({accommodation});
+    //         return res.status(200).json({bookingAmount});
+    //     } catch (e) {
+    //         return res.status(400).json({message:e.message});
+    //     }
+    // }
 }
 
 module.exports = AccommodationController;
