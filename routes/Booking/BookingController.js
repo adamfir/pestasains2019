@@ -1,6 +1,8 @@
 let BookingModel = require('./BookingModel');
 let StudentModel = require('../Student/StudentModel');
 let TeacherModel = require('../Teacher/TeacherModel');
+let ExcelJS = require('exceljs');
+let AccommodationModel = require('../Accommodation/AccommodationModel')
 class BookingController {
     static async create(req,res){
         try{
@@ -60,6 +62,64 @@ class BookingController {
         
         } catch (e) {
             return res.status(400).json({message:e.message, booking:null});
+        }
+    }
+    static async download(req,res){
+        try {
+            // let {accommodation} = req.params;
+            let accommodations = await AccommodationModel.find();
+            let workbook = new ExcelJS.Workbook();
+            for (let i = 0; i < accommodations.length; i++) {
+                let worksheet = workbook.addWorksheet(accommodations[i].name);
+                worksheet.columns = [
+                    {header: 'No', key: 'no', width:7},
+                    {header: 'Nama Sekolah', key: 'school', width:35},
+                    {header: 'Nama', key: 'name', width:35},
+                    {header: 'Jenis User', key: 'userType', width:15},
+                    {header: 'Nomor telepon', key: 'phone', width:15},
+                    {header: 'Email', key: 'email', width:35},
+                    {header: 'Tanggal Mulai', key: 'startDate', width:15},
+                    {header: 'Durasi (Hari)', key: 'duration', width:15},
+                    {header: 'Status Pembayaran', key: 'isPaid', width:15},
+                ]
+                let bookings = await BookingModel.find({accommodation:accommodations[i]._id}).populate('student teacher school');
+                for (let j = 0, no=1; j < bookings.length; j++, no++) {
+                    let name = null, phone = null, email = null;
+                    if(bookings[i].userType == 'student'){
+                        name = bookings[i].student.name;
+                        phone = bookings[i].student.phone;
+                        email = bookings[i].student.email;
+                    }
+                    else{
+                        name = bookings[i].teacher.name;
+                        phone = bookings[i].teacher.phone;
+                        email = bookings[i].teacher.email;
+                    }
+                    worksheet.addRow([
+                        no,
+                        bookings[i].school.name,
+                        name,
+                        bookings[i].userType,
+                        phone,
+                        email,
+                        bookings[i].startDate.toISOString().split("T")[0],
+                        bookings[i].duration,
+                        bookings[i].isPaid,
+                    ]);
+                    worksheet.commit;
+                }
+            }
+            let fileName = "Data booking penginapan "+new Date().toISOString().split("T")[0]+'.xlsx';
+            let tempFilePath = __dirname+'/'+fileName;
+            workbook.xlsx.writeFile(tempFilePath).then(()=>{
+                console.log("Download list booking done");
+                res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
+                res.sendFile(tempFilePath,(e)=>{
+                    console.log(e);
+                })
+            })
+        } catch (e) {
+            return res.status(400).json({message:e.message});
         }
     }
 }
