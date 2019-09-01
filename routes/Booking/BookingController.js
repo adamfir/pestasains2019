@@ -84,27 +84,30 @@ class BookingController {
                 ]
                 let bookings = await BookingModel.find({accommodation:accommodations[i]._id}).populate('student teacher school');
                 for (let j = 0, no=1; j < bookings.length; j++, no++) {
+                    console.log(j,bookings);
                     let name = null, phone = null, email = null;
-                    if(bookings[i].userType == 'student'){
-                        name = bookings[i].student.name;
-                        phone = bookings[i].student.phone;
-                        email = bookings[i].student.email;
+                    if(bookings[j].userType == 'student'){
+                        // return res.json({mes:"disini masuk"});
+                        name = bookings[j].student.name;
+                        phone = bookings[j].student.phone;
+                        email = bookings[j].student.email;
                     }
                     else{
-                        name = bookings[i].teacher.name;
-                        phone = bookings[i].teacher.phone;
-                        email = bookings[i].teacher.email;
+                        name = bookings[j].teacher.name;
+                        phone = bookings[j].teacher.phone;
+                        email = bookings[j].teacher.email;
                     }
+                    console.log(bookings[j].isPaid);
                     worksheet.addRow([
                         no,
-                        bookings[i].school.name,
+                        bookings[j].school.name,
                         name,
-                        bookings[i].userType,
+                        bookings[j].userType,
                         phone,
                         email,
-                        bookings[i].startDate.toISOString().split("T")[0],
-                        bookings[i].duration,
-                        bookings[i].isPaid,
+                        bookings[j].startDate.toISOString().split("T")[0],
+                        bookings[j].duration,
+                        bookings[j].isPaid,
                     ]);
                     worksheet.commit;
                 }
@@ -115,7 +118,7 @@ class BookingController {
                 console.log("Download list booking done");
                 res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
                 res.sendFile(tempFilePath,(e)=>{
-                    console.log(e);
+                    if(e) console.log(e);
                 })
             })
         } catch (e) {
