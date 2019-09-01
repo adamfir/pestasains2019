@@ -9,7 +9,7 @@ let PaymentEncription = require('../Midleware/PaymentEncription');
 let axios = require('axios');
 let BookingModel = require('../Booking/BookingModel');
 let mongoose = require('mongoose');
-let cid = '00298', sck = '787b175aeb54a1e133fb71b5d2ebe11d';
+let cid = '00773', sck = '787b175aeb54a1e133fb71b5d2ebe11d';
 let ParamModel = require('../Params/ParamModel');
 class BillController {
     constructor(params) {
@@ -19,7 +19,7 @@ class BillController {
         try{ //only for school
             let {type, school} = req.value.body, 
                 totalPrice = 0,
-                cid = '00298',
+                cid = '00773',
                 sck = '787b175aeb54a1e133fb71b5d2ebe11d',
                 teams=null,
                 teachers=null,
@@ -30,7 +30,7 @@ class BillController {
                 trx_id = mongoose.Types.ObjectId(),
                 lastVA = await ParamModel.findOne({code:"LAST_VA"}),
                 firstVA = Math.floor(1000 + Math.random() * 9000),
-                virtual_account = "98800298"+firstVA.toString() + lastVA.value,
+                virtual_account = "98800773"+firstVA.toString() + lastVA.value,
                 nextValue = (parseInt(lastVA.value)+1).toString();
             lastVA.value = "0".repeat(4-nextValue.length)+nextValue;
             lastVA.save();
@@ -106,7 +106,7 @@ class BillController {
                  * 4. simpan ke DB
                  */
                 bookings = await BookingModel.find({school, isFinal:false}).populate('accommodation');
-                console.log(bookings);
+                // console.log(bookings);
                 teachers = []; 
                 students = [];
                 for(let i=0; i<bookings.length; i++){
