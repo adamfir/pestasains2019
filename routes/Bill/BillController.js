@@ -147,7 +147,7 @@ class BillController {
                         data: encryptedData
                     }
                 });
-            console.log(request,data);
+            console.log(request,data,request.data);
             let bill = null; // result = request.data.data, decryptedData = PaymentEncription.decrypt(result.data,cid,sck);
                 
             // console.log(data);
@@ -181,6 +181,7 @@ class BillController {
             let {client_id, data} = req.body,
                 decryptedData = PaymentEncription.decrypt(data,cid,sck);
             // let bill = await BillModel.findByIdAndUpdate({_id:decryptedData.trx_id},{payment:{status:'paid',data:Date.now()}});
+            console.log(data,decryptedData);
             let bill = await BillModel.findById({_id:decryptedData.trx_id});
             bill.payment.status='paid';
             bill.payment.date=Date.now();
