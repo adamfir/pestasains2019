@@ -65,7 +65,11 @@ let billSchema = new Schema({
         students:[{
             type: Schema.Types.ObjectId,
             ref: 'Student'
-        }]
+        }],
+        bookings:[{
+            type: Schema.Types.ObjectId,
+            ref: 'Booking'
+        }],
     }
 });
 

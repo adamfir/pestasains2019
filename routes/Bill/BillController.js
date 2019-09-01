@@ -106,7 +106,7 @@ class BillController {
                  * 4. simpan ke DB
                  */
                 bookings = await BookingModel.find({school, isFinal:false}).populate('accommodation');
-                // console.log(bookings);
+                console.log(bookings);
                 teachers = []; 
                 students = [];
                 for(let i=0; i<bookings.length; i++){
@@ -126,7 +126,7 @@ class BillController {
                 throw new Error('invalid bill type');
             }
             console.log(108, totalPrice,virtual_account);
-            totalPrice += Math.floor(Math.random()*(899)+100);
+            // totalPrice += Math.floor(Math.random()*(899)+100);
             // throw new Error(totalPrice);
             let data = {
                 type:"createbilling",
@@ -150,7 +150,7 @@ class BillController {
             // console.log(request,data);
             let result = request.data.data, decryptedData = PaymentEncription.decrypt(result.data,cid,sck),
                 bill = null;
-            console.log(virtual_account);
+            console.log(data);
             if(type == 'registration'){
                 bill = await BillModel.create({
                     _id:trx_id,type,totalPrice,VANumber:virtual_account,
@@ -165,7 +165,7 @@ class BillController {
                     _id:trx_id,type,totalPrice,VANumber:virtual_account,
                     payment:{status:'waiting'},school,accommodation:
                     {
-                        teachers:teachers,students:students
+                        teachers:teachers,students:students,bookings
                     }
                 });
                 // return res.json({bill,students, teachers})
@@ -180,7 +180,17 @@ class BillController {
         try {
             let {client_id, data} = req.body,
                 decryptedData = PaymentEncription.decrypt(data,cid,sck);
-            let bill = await BillModel.findByIdAndUpdate({_id:decryptedData.trx_id},{payment:{status:'paid',data:Date.now()}});
+            // let bill = await BillModel.findByIdAndUpdate({_id:decryptedData.trx_id},{payment:{status:'paid',data:Date.now()}});
+            let bill = await BillModel.findById({_id:decryptedData.trx_id});
+            bill.payment.status='paid';
+            bill.payment.date=Date.now();
+            if(bill.type == 'accommodation'){
+                for (let i = 0; i < bill.accommodation.bookings.length; i++) {
+                    let booking = await BookingModel.findByIdAndUpdate({_id:bill.accommodation.bookings[i]},{isPaid:true});
+                    // console.log(booking);
+                }
+            }
+            await bill.save();
             console.log({trx: data.trx_id, message:"Bill berhasil diupdate"});
             return res.json({trx: data.trx_id, message:"Bill berhasil diupdate"});
         } catch (e) {
