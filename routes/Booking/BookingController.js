@@ -86,6 +86,7 @@ class BookingController {
                 for (let j = 0, no=1; j < bookings.length; j++, no++) {
                     console.log(j,bookings);
                     let name = null, phone = null, email = null;
+                    console.log(bookings[j]);
                     if(bookings[j].userType == 'student'){
                         // return res.json({mes:"disini masuk"});
                         name = bookings[j].student.name;

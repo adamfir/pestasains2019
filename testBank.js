@@ -9,8 +9,8 @@ let data = {
     // customer_email : "david@example.com",
     // customer_phone : "08123456781011",
     // description : "Test Create Billing",
-    trx_id : "5d6bdb7fdd20105d0c27baca",
-    virtual_account : "9880029871270049",
+    trx_id : "5d6be8dd88ef6c50d4fb38c6",
+    virtual_account : "9880029820660051",
     // billing_type : "c",
     // client_id : cid,
     // datetime_expired : two_hours.toISOString()

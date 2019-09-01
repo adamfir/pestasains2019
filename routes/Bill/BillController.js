@@ -147,10 +147,10 @@ class BillController {
                         data: encryptedData
                     }
                 });
-            // console.log(request,data);
-            let result = request.data.data, decryptedData = PaymentEncription.decrypt(result.data,cid,sck),
-                bill = null;
-            console.log(data);
+            console.log(request,data);
+            let bill = null; // result = request.data.data, decryptedData = PaymentEncription.decrypt(result.data,cid,sck);
+                
+            // console.log(data);
             if(type == 'registration'){
                 bill = await BillModel.create({
                     _id:trx_id,type,totalPrice,VANumber:virtual_account,
