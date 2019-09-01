@@ -159,11 +159,12 @@ class TeamController {
             worksheet.columns = [
                 {header: 'No', key: 'no', width: 4},
                 // {header: 'Id', key: '_id', width: 10},
-                {header: 'Team', key: 'team', width:15},
-                {header: 'Student Name', key: 'name', width:15},
+                {header: 'Tim', key: 'team', width:15},
+                {header: 'Nama Siswa', key: 'name', width:15},
                 {header: 'Email', key: 'email', width:15},
-                {header: 'Phone', key: 'phone', width:15},
-                {header: 'School', key: 'school', width:15},
+                {header: 'Nomor Telepon', key: 'phone', width:15},
+                {header: 'Nama Sekolah', key: 'school', width:15},
+                {header: 'Nama Lomba', key: 'contestName', width:15},
             ]
             // return res.json({participants});
             let no = 1;
@@ -177,6 +178,7 @@ class TeamController {
                         participants[i].student[j].email,
                         participants[i].student[j].phone,
                         participants[i].school.name,
+                        contest.name,
                     ])
                     worksheet.commit;
                 }
