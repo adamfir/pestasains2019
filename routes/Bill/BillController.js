@@ -186,12 +186,27 @@ class BillController {
             // let bill = await BillModel.findByIdAndUpdate({_id:decryptedData.trx_id},{payment:{status:'paid',data:Date.now()}});
             console.log(data,decryptedData);
             let bill = await BillModel.findById({_id:decryptedData.trx_id});
+            if(bill == null || bill == undefined){
+                throw new Error(`Bill with id ${decryptedData.trx_id} not found`);
+            }
             bill.payment.status='paid';
             bill.payment.date=Date.now();
             if(bill.type == 'accommodation'){
                 for (let i = 0; i < bill.accommodation.bookings.length; i++) {
                     let booking = await BookingModel.findByIdAndUpdate({_id:bill.accommodation.bookings[i]},{isPaid:true});
                     // console.log(booking);
+                }
+            }
+            if(bill.type == 'registration'){
+                for (let i = 0; i < bill.registration.teams.length; i++) {
+                    await TeamModel.findByIdAndUpdate({_id:bill.registration.teams[i]},{
+                        isPaid:true
+                    });
+                }
+                for (let i = 0; i < bill.registration.teachers.length; i++) {
+                    await TeacherModel.findByIdAndUpdate({_id:bill.registration.teachers[i]},{
+                        isPaid:true
+                    });
                 }
             }
             await bill.save();
