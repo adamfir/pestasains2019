@@ -195,7 +195,7 @@ class BillController {
             }
             await bill.save();
             console.log({trx: data.trx_id, message:"Bill berhasil diupdate"});
-            return res.json({trx: data.trx_id, message:"Bill berhasil diupdate",status:000});
+            return res.json({trx: data.trx_id, message:"Bill berhasil diupdate",status:"000"});
         } catch (e) {
             return res.json({message:e.message});
         }
