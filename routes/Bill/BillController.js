@@ -9,8 +9,8 @@ let PaymentEncription = require('../Midleware/PaymentEncription');
 let axios = require('axios');
 let BookingModel = require('../Booking/BookingModel');
 let mongoose = require('mongoose');
-let cid = '00298', sck = '787b175aeb54a1e133fb71b5d2ebe11d'; // credential dev
-// let cid = '00773', sck = '61c16a7e0dab54a0709ad748f485951e'; // credential prod
+// let cid = '00298', sck = '787b175aeb54a1e133fb71b5d2ebe11d'; // credential dev
+let cid = '00773', sck = '61c16a7e0dab54a0709ad748f485951e'; // credential prod
 let ParamModel = require('../Params/ParamModel');
 class BillController {
     constructor(params) {
@@ -20,8 +20,8 @@ class BillController {
         try{ //only for school
             let {type, school} = req.value.body, 
                 totalPrice = 0,
-                // cid = '00773',
-                // sck = '787b175aeb54a1e133fb71b5d2ebe11d',
+                cid = '00773',
+                sck = '61c16a7e0dab54a0709ad748f485951e',
                 teams=null,
                 teachers=null,
                 students=null,
@@ -31,7 +31,7 @@ class BillController {
                 trx_id = mongoose.Types.ObjectId(),
                 lastVA = await ParamModel.findOne({code:"LAST_VA"}),
                 firstVA = Math.floor(1000 + Math.random() * 9000),
-                virtual_account = "9880"+cid+firstVA.toString() + lastVA.value,
+                virtual_account = "98800773"+firstVA.toString() + lastVA.value,
                 nextValue = (parseInt(lastVA.value)+1).toString();
             lastVA.value = "0".repeat(4-nextValue.length)+nextValue;
             lastVA.save();
@@ -139,11 +139,11 @@ class BillController {
                 virtual_account
             }
             let encryptedData = PaymentEncription.encrypt(data,cid,sck),
-                // url PORT 3001 => dev, 3002 => prod
+                // 3001 => dev, 3002 => prod
                 request = await axios({
                     method: 'post',
                     headers: {'Content-Type':'application/json'},
-                    url: 'http://103.56.206.107:3001/create', 
+                    url: 'http://103.56.206.107:3002/create',
                     data: {
                         client_id: cid,
                         data: encryptedData
