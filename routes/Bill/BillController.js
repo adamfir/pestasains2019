@@ -9,8 +9,8 @@ let PaymentEncription = require('../Midleware/PaymentEncription');
 let axios = require('axios');
 let BookingModel = require('../Booking/BookingModel');
 let mongoose = require('mongoose');
-// let cid = '00298', sck = '787b175aeb54a1e133fb71b5d2ebe11d'; // credential dev
-let cid = '00773', sck = '61c16a7e0dab54a0709ad748f485951e'; // credential prod
+let cid = '00298', sck = '787b175aeb54a1e133fb71b5d2ebe11d'; // credential dev
+// let cid = '00773', sck = '61c16a7e0dab54a0709ad748f485951e'; // credential prod
 let ParamModel = require('../Params/ParamModel');
 class BillController {
     constructor(params) {
@@ -143,7 +143,7 @@ class BillController {
                 request = await axios({
                     method: 'post',
                     headers: {'Content-Type':'application/json'},
-                    url: 'http://103.56.206.107:3002/create', 
+                    url: 'http://103.56.206.107:3001/create', 
                     data: {
                         client_id: cid,
                         data: encryptedData
@@ -195,7 +195,7 @@ class BillController {
             }
             await bill.save();
             console.log({trx: data.trx_id, message:"Bill berhasil diupdate"});
-            return res.json({trx: data.trx_id, message:"Bill berhasil diupdate"});
+            return res.json({trx: data.trx_id, message:"Bill berhasil diupdate",status:000});
         } catch (e) {
             return res.json({message:e.message});
         }
