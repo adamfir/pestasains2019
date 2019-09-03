@@ -165,6 +165,7 @@ class TeamController {
                 {header: 'Nomor Telepon', key: 'phone', width:15},
                 {header: 'Nama Sekolah', key: 'school', width:15},
                 {header: 'Nama Lomba', key: 'contestName', width:15},
+                {header: 'Status Pembayaran', key: 'isPaid', width:15},
             ]
             // return res.json({participants});
             let no = 1;
@@ -179,6 +180,7 @@ class TeamController {
                         participants[i].student[j].phone,
                         participants[i].school.name,
                         contest.name,
+                        participants[i].isPaid,
                     ])
                     worksheet.commit;
                 }
