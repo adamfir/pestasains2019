@@ -127,6 +127,7 @@ class BillController {
                 throw new Error('invalid bill type');
             }
             console.log(108, totalPrice,virtual_account);
+            totalPrice += 5000; //Biaya admin
             // totalPrice += Math.floor(Math.random()*(899)+100);
             // throw new Error(totalPrice);
             let data = {
