@@ -144,7 +144,7 @@ class BillController {
                 request = await axios({
                     method: 'post',
                     headers: {'Content-Type':'application/json'},
-                    url: 'http://103.56.206.107:3002/create',
+                    url: 'http://103.56.206.107:3001/create',
                     data: {
                         client_id: cid,
                         data: encryptedData
