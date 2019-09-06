@@ -180,7 +180,7 @@ class TeamController {
                         participants[i].student[j].phone,
                         participants[i].school.name,
                         contest.name,
-                        participants[i].isPaid,
+                        participants[i].isPaid2,
                     ])
                     worksheet.commit;
                 }

@@ -24,7 +24,11 @@ let teamSchema = new Schema({
     isPaid:{
         type: Boolean,
         default: false,
-    }
+    },
+    isPaid2:{
+        type: Boolean,
+        default: false,
+    },
 });
 
 // create a model

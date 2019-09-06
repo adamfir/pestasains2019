@@ -28,6 +28,10 @@ let teacherSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isPaid2:{
+        type: Boolean,
+        default: false
+    },
     accommodationBooking:{
         type: Boolean,
         default: false

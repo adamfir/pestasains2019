@@ -121,7 +121,7 @@ class TeacherController {
                     teachers[i].phone,
                     teachers[i].NIP,
                     teachers[i].school.name,
-                    teachers[i].isPaid,
+                    teachers[i].isPaid2,
                 ]);
                 worksheet.commit;
             }
