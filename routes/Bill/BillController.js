@@ -57,7 +57,7 @@ class BillController {
                 }
                 console.log(46, totalPrice);
                 if(teachers.length != 0){
-                    if(totalStudent<5){
+                    if(totalStudent<=5){
                         if(totalTeacher-numberOfTeacher >= 1){
                             totalPrice += numberOfTeacher*100000;
                         }
@@ -65,7 +65,7 @@ class BillController {
                             totalPrice += (numberOfTeacher <= 1 ? numberOfTeacher*50000 : 1*50000+(numberOfTeacher-1)*100000);
                         }
                     }
-                    else if(totalStudent<15){
+                    else if(totalStudent<=15){
                         if(totalTeacher-numberOfTeacher >= 2){
                             totalPrice += numberOfTeacher*100000;
                         }
@@ -74,7 +74,7 @@ class BillController {
                             totalPrice += distToTreshold*50000 + (numberOfTeacher-distToTreshold)*100000;
                         }
                     }
-                    else if(totalStudent<30){
+                    else if(totalStudent<=30){
                         if(totalTeacher-numberOfTeacher >= 3){
                             totalPrice += numberOfTeacher*100000;
                         }
