@@ -57,54 +57,21 @@ class BillController {
                 }
                 console.log(46, totalPrice);
                 if(teachers.length != 0){
-                    if(totalStudent<=5){
-                        // if(totalTeacher-numberOfTeacher >= 1){
-                        //     totalPrice += numberOfTeacher*100000;
-                        // }
-                        // else{
-                        //     totalPrice += (numberOfTeacher <= 1 ? numberOfTeacher*50000 : 1*50000+(numberOfTeacher-1)*100000);
-                        // }
-                        let jatahMurah = 1;
-                        let jatahMurahDipakai = (totalTeacher-numberOfTeacher >= jatahMurah ? jatahMurah : totalTeacher-numberOfTeacher);
-                        let jatahMurahSisa = jatahMurah-jatahMurahDipakai;
-                        let bayarMahal = numberOfTeacher - jatahMurahSisa;
-                        totalPrice += jatahMurahSisa*50000 + bayarMahal*100000;
+                    let jatahMurah, jatahMurahDipakai, jatahMurahSisa, bayarMahal, jatahMurahBakalDipakai;
+                    if (totalStudent > 0 && totalStudent <= 5) {
+                        jatahMurah = 1;
+                    } else if (totalStudent > 5 && totalStudent <= 15) {
+                        jatahMurah = 2;
+                    } else if (totalStudent > 15 && totalStudent <= 30) {
+                        jatahMurah = 3;
+                    } else {
+                        jatahMurah = 4;
                     }
-                    else if(totalStudent<=15){
-                        let jatahMurah = 2;
-                        let jatahMurahDipakai = (totalTeacher-numberOfTeacher >= jatahMurah ? jatahMurah : totalTeacher-numberOfTeacher);
-                        let jatahMurahSisa = jatahMurah-jatahMurahDipakai;
-                        let bayarMahal = numberOfTeacher - jatahMurahSisa;
-                        totalPrice += jatahMurahSisa*50000 + bayarMahal*100000;
-                    }
-                    else if(totalStudent<=30){
-                        let jatahMurah = 3;
-                        let jatahMurahDipakai = (totalTeacher-numberOfTeacher >= jatahMurah ? jatahMurah : totalTeacher-numberOfTeacher);
-                        let jatahMurahSisa = jatahMurah-jatahMurahDipakai;
-                        let bayarMahal = numberOfTeacher - jatahMurahSisa;
-                        totalPrice += jatahMurahSisa*50000 + bayarMahal*100000;
-                        // if(totalTeacher-numberOfTeacher >= 3){
-                        //     totalPrice += numberOfTeacher*100000;
-                        // }
-                        // else{
-                        //     let distToTreshold = (totalTeacher > 3 ? 0 : 3-totalTeacher);
-                        //     totalPrice += distToTreshold*50000 + (numberOfTeacher-distToTreshold)*100000;
-                        // }
-                    }
-                    else{
-                        let jatahMurah = 4;
-                        let jatahMurahDipakai = (totalTeacher-numberOfTeacher >= jatahMurah ? jatahMurah : totalTeacher-numberOfTeacher);
-                        let jatahMurahSisa = jatahMurah-jatahMurahDipakai;
-                        let bayarMahal = numberOfTeacher - jatahMurahSisa;
-                        totalPrice += jatahMurahSisa*50000 + bayarMahal*100000;
-                        // if(totalTeacher-numberOfTeacher >= 4){
-                        //     totalPrice += numberOfTeacher*100000;
-                        // }
-                        // else{
-                        //     let distToTreshold = (totalTeacher > 4 ? 0 : 4-totalTeacher);
-                        //     totalPrice += distToTreshold*50000 + (numberOfTeacher-distToTreshold)*100000;
-                        // }
-                    }
+                    jatahMurahDipakai = (totalTeacher - numberOfTeacher >= jatahMurah ? jatahMurah : totalTeacher - numberOfTeacher);
+                    jatahMurahSisa = jatahMurah - jatahMurahDipakai;
+                    jatahMurahBakalDipakai = (numberOfTeacher >= jatahMurahSisa ? jatahMurahSisa : numberOfTeacher);
+                    bayarMahal = (numberOfTeacher - jatahMurahSisa < 0 ? 0 : numberOfTeacher - jatahMurahSisa);
+                    totalPrice += jatahMurahBakalDipakai * 50000 + bayarMahal * 100000;;
                     for(let i=0; i<numberOfTeacher; i++){
                         teachers[i].isPaid = true;
                         await teachers[i].save();
