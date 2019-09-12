@@ -223,6 +223,55 @@ class BillController {
             return res.status(400).json({message:e.message, totalBill:null});
         }
     }
+    static async findByVA(req,res,next){
+        try {
+            let {vaNumber} = req.body;
+            let bills = await BillModel.find({VANumber:{$regex:vaNumber,$options:'i'}}).populate('school');
+            return res.status(200).json(bills);    
+        } catch (e) {
+            return res.status(400).json({message:e.message});
+        }
+    }
+    static async forceUpdateBill(req,res){
+        try {
+            let {billId} = req.body;
+            let bill = await BillModel.findById({_id:billId});
+            if(bill){
+                if(bill.payment.status != 'paid'){
+                    bill.payment.status='paid';
+                    bill.payment.date=Date.now();
+                    if(bill.type == 'accommodation'){
+                        for (let i = 0; i < bill.accommodation.bookings.length; i++) {
+                            let booking = await BookingModel.findByIdAndUpdate({_id:bill.accommodation.bookings[i]},{isPaid:true});
+                            // console.log(booking);
+                        }
+                    }
+                    if(bill.type == 'registration'){
+                        for (let i = 0; i < bill.registration.teams.length; i++) {
+                            await TeamModel.findByIdAndUpdate({_id:bill.registration.teams[i]},{
+                                isPaid2:true
+                            });
+                        }
+                        for (let i = 0; i < bill.registration.teachers.length; i++) {
+                            await TeacherModel.findByIdAndUpdate({_id:bill.registration.teachers[i]},{
+                                isPaid2:true
+                            });
+                        }
+                    }
+                    await bill.save();
+                    return res.status(200).json({bill,message:"Bill status successfully change"});
+                }
+                else{
+                    throw Error('Bill already paid');
+                }
+            }
+            else{
+                throw Error('Bill not found');
+            }
+        } catch (e) {
+            return res.status(400).json({message:e.message});
+        }
+    }
 }
 
 module.exports = BillController;
